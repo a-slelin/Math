@@ -26,7 +26,7 @@ def read_results(filename):
 
             # Если мы в разделе итоговых данных и строка содержит данные
             if in_final_section and line:
-                parts = line.split('\t')
+                parts = line.split()
                 if len(parts) >= 2:
                     # Проверяем, что первый элемент - число
                     if parts[0].isdigit():
@@ -143,6 +143,70 @@ def draw(integral='a'):
     plot_graph(threads_mpi, times_mpi, f'mpi_{integral}.png', single_time)
 
 
+def graph(integral='a'):
+    check_integral(integral)
+
+    _, single_times = read_results(f'single_{integral}.txt')
+    single_time = single_times[0]
+    threads_omp, times_omp = read_results(f'openmp_{integral}.txt')
+    threads_mpi, times_mpi = read_results(f'mpi_{integral}.txt')
+
+    omp_speedup = [single_time / t for t in times_omp]
+    mpi_speedup = [single_time / t for t in times_mpi]
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(threads_omp, omp_speedup, 'o-', label='OpenMP', color='r')
+    plt.plot(threads_mpi, mpi_speedup, 's-', label='MPI', color='b')
+    plt.xlabel('Количество потоков/процессов')
+    plt.ylabel('Ускорение')
+    plt.title('График ускорения параллельного алгоритма')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(f'graph_{integral}.png', dpi=300)
+    plt.show()
+
+def graph_general():
+    _, a_single_times = read_results(f'single_a.txt')
+    a_single_time = a_single_times[0]
+    a_threads_omp, a_times_omp = read_results(f'openmp_a.txt')
+    a_threads_mpi, a_times_mpi = read_results(f'mpi_a.txt')
+
+    _, b_single_times = read_results(f'single_b.txt')
+    b_single_time = b_single_times[0]
+    b_threads_omp, b_times_omp = read_results(f'openmp_b.txt')
+    b_threads_mpi, b_times_mpi = read_results(f'mpi_b.txt')
+
+    _, c_single_times = read_results(f'single_c.txt')
+    c_single_time = c_single_times[0]
+    c_threads_omp, c_times_omp = read_results(f'openmp_c.txt')
+    c_threads_mpi, c_times_mpi = read_results(f'mpi_c.txt')
+
+    _, d_single_times = read_results(f'single_d.txt')
+    d_single_time = d_single_times[0]
+    d_threads_omp, d_times_omp = read_results(f'openmp_d.txt')
+    d_threads_mpi, d_times_mpi = read_results(f'mpi_d.txt')
+
+    single_time = a_single_time + b_single_time + c_single_time + d_single_time
+    threads_omp = range(1, 29)
+    threads_mpi = range(1, 29)
+    times_omp = [a_times_omp[i] + b_times_omp[i] + c_times_omp[i] + d_times_omp[i] for i in range(0, 28)]
+    times_mpi = [a_times_mpi[i] + b_times_mpi[i] + c_times_mpi[i] + d_times_mpi[i] for i in range(0, 28)]
+
+    omp_speedup = [single_time / t for t in times_omp]
+    mpi_speedup = [single_time / t for t in times_mpi]
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(threads_omp, omp_speedup, 'o-', label='OpenMP', color='r')
+    plt.plot(threads_mpi, mpi_speedup, 's-', label='MPI', color='b')
+    plt.xlabel('Количество потоков/процессов')
+    plt.ylabel('Ускорение')
+    plt.title('График ускорения параллельного алгоритма')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(f'graph.png', dpi=300)
+    plt.show()
+
+
 if __name__ == '__main__':
     # Выбери интеграл из ('a', 'b', 'c', 'd')
-    draw('d')
+    draw('a')
