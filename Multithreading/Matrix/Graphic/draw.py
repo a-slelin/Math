@@ -89,7 +89,7 @@ def plot_graph(threads, times, output_file, single_time):
 
     print(f'График сохранен как {output_file}')
 
-    print(f'Статист ика для {output_file}:')
+    print(f'Статистика для {output_file}:')
     print(f'  - Минимальное время: {min(times)} мкс ({threads[times.index(min(times))]} потоков)')
     print(f'  - Среднее время: {avg_time:.0f} мкс')
     print(f'  - Оптимальное количество потоков: {optimal_threads}')
@@ -119,5 +119,26 @@ def draw():
     plot_graph(threads_mpi, times_mpi, 'mpi.png', single_time)
 
 
+def graph():
+    _, single_times = read_results('single.txt')
+    single_time = single_times[0]
+    threads_omp, times_omp = read_results('openmp.txt')
+    threads_mpi, times_mpi = read_results('mpi.txt')
+
+    omp_speedup = [single_time / t for t in times_omp]
+    mpi_speedup = [single_time / t for t in times_mpi]
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(threads_omp, omp_speedup, 'o-', label='OpenMP', color='r')
+    plt.plot(threads_mpi, mpi_speedup, 's-', label='MPI', color='b')
+    plt.xlabel('Количество потоков/процессов')
+    plt.ylabel('Ускорение')
+    plt.title('График ускорения параллельного алгоритма')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig('graph.png', dpi=300)
+    plt.show()
+
+
 if __name__ == '__main__':
-    draw()
+    graph()

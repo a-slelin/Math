@@ -10,3 +10,4 @@
 * **mpi_matrix.txt**: результаты выполнения многопоточного алгоритма с MPI.
 * **openmp.png**: график для OpenMP.
 * **mpi.png**: график для MPI.
+* **graph.png**: сравнение графиков MPI и OpenMP.
