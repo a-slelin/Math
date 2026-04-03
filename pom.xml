@@ -1,0 +1,162 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>a.slelin.work</groupId>
+    <artifactId>math</artifactId>
+    <version>${revision}</version>
+
+    <packaging>pom</packaging>
+
+    <name>Math</name>
+
+    <description>Math problem</description>
+
+    <url>https://github.com/a-slelin/Math</url>
+
+    <developers>
+
+        <developer>
+            <id>1</id>
+            <name>Alexander Slelin</name>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
+            <url>https://github.com/a-slelin</url>
+            <email>a.slelin.work@mail.ru</email>
+        </developer>
+
+    </developers>
+
+    <repositories>
+
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+
+    </repositories>
+
+    <modules>
+        <module>Chaos</module>
+        <module>Multithreading</module>
+    </modules>
+
+    <properties>
+
+        <revision>1.0</revision>
+
+        <lastCheckUpdates>03.04.2026</lastCheckUpdates>
+
+        <!--General-->
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
+        <java.version>25</java.version>
+        <skipTests>false</skipTests>
+
+        <!--Plugins-->
+        <version.plugin.clean>3.5.0</version.plugin.clean>
+        <version.plugin.compile>3.15.0</version.plugin.compile>
+        <version.plugin.surefire>3.5.5</version.plugin.surefire>
+        <version.plugin.jar>3.5.0</version.plugin.jar>
+        <version.plugin.install>3.1.4</version.plugin.install>
+
+        <!--Libraries-->
+        <version.lombok>1.18.44</version.lombok>
+        <version.logback>1.5.32</version.logback>
+        <version.junit>6.0.3</version.junit>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!--Lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${version.lombok}</version>
+            </dependency>
+
+            <!--Logback-->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${version.logback}</version>
+            </dependency>
+
+            <!--Junit-->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+
+                <!--Clean plugin-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${version.plugin.clean}</version>
+                </plugin>
+
+                <!--Compile plugin-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.plugin.compile}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <release>${java.version}</release>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${version.lombok}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                        <compilerArgs>
+                            <arg>-parameters</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
+
+                <!--Surefire plugin-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${version.plugin.surefire}</version>
+                </plugin>
+
+                <!--Jar plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${version.plugin.jar}</version>
+                </plugin>
+
+                <!--Install plugin-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${version.plugin.install}</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <finalName>Math</finalName>
+
+    </build>
+
+</project>

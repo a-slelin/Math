@@ -1,17 +1,20 @@
+package a.slelin.work.math.chaos;
+
 public class Main {
+
     public static int N = 1000000000;
-    public static double start = 2/7.0;
+    public static double start = 2 / 7.0;
     public static int afterComma = 10;
     public static String format = "%." + afterComma + "f";
 
-    public static void main(String[] args){
+    static void main() {
         double x_n, y_n, z_n, w_n;
         x_n = y_n = z_n = w_n = start;
         double max_xy, max_zw;
         max_zw = max_xy = 0;
 
 
-        for (int i = 0; i < N; ++i){
+        for (int i = 0; i < N; ++i) {
             z_n = 3 * z_n * (1 - z_n);
             w_n = 3 * w_n - 3 * w_n * w_n;
             max_zw = Math.max(max_zw, Math.abs(z_n - w_n));
