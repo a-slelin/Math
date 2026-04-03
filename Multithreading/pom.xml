@@ -11,43 +11,19 @@
     <groupId>a.slelin.work.math</groupId>
     <artifactId>multithreading</artifactId>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>Math::Multithreading</name>
 
+    <modules>
+        <module>Elementary</module>
+        <module>Matrix</module>
+        <module>Integral</module>
+        <module>Equation</module>
+    </modules>
+
     <build>
-
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-
-        <finalName>Chaos</finalName>
-
+        <finalName>Multithreading</finalName>
     </build>
 
 </project>
