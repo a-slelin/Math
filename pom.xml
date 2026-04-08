@@ -41,6 +41,7 @@
         <module>Chaos</module>
         <module>Multithreading</module>
         <module>Triangulation</module>
+        <module>Absorption</module>
     </modules>
 
     <properties>
