@@ -38,10 +38,11 @@
     </repositories>
 
     <modules>
+        <module>Absorption</module>
         <module>Chaos</module>
+        <module>Diploma</module>
         <module>Multithreading</module>
         <module>Triangulation</module>
-        <module>Absorption</module>
     </modules>
 
     <properties>
