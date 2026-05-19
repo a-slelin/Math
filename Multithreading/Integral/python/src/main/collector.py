@@ -109,4 +109,4 @@ def start_program(tool, task, threads):
 if __name__ == '__main__':
     # Выбери инструмент из ('single', 'openmp', 'mpi')
     # Выбери интеграл из ('a', 'b', 'c', 'd')
-    compute('mpi','d')
+    compute('mpi', 'd')

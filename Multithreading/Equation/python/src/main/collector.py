@@ -6,6 +6,7 @@ from const import *
 
 
 # Функция считает интеграл с помощью инструмента
+# noinspection PyPep8Naming
 def compute(tool, N=100, T=1.0):
     # Проверяем верный ли ввод
     check_tool(tool)
@@ -44,6 +45,7 @@ def compute(tool, N=100, T=1.0):
 
 
 # Функция запускает программу на C++
+# noinspection PyPep8Naming
 def start_program(tool, N, T, threads):
     # Проверяем верный ли ввод
     check_tool(tool)

@@ -43,12 +43,14 @@ def read_results(filename):
 def calculate_optimal_threads(threads, speedup, threshold=0.95):
     max_speedup = max(speedup)
     for i, s in enumerate(speedup):
+        # noinspection PyTypeChecker
         if s >= max_speedup * threshold:
             return threads[i]
     return threads[-1]
 
 
 # Функция отрисовки графиков
+# noinspection PyTypeChecker,PyStringConversionWithoutDunderMethod
 def plot_graph(threads, times, output_file, single_time):
     plt.figure(figsize=(14, 10))
 
@@ -116,6 +118,7 @@ def plot_graph(threads, times, output_file, single_time):
     print(f'  - Среднее время: {avg_time:.0f} мкс')
     print(f'  - Оптимальное количество потоков: {optimal_threads}')
     print(f'  - Максимальное ускорение: {max(speedup):.2f}x')
+    # noinspection PyUnresolvedReferences
     print(f'  - Эффективность алгоритма: {optimal_speedup / optimal_threads:.2f}')
 
 
@@ -164,6 +167,7 @@ def graph(integral='a'):
     plt.grid(True)
     plt.savefig(f'graph_{integral}.png', dpi=300)
     plt.show()
+
 
 def graph_general():
     _, a_single_times = read_results(f'single_a.txt')

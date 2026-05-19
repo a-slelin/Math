@@ -3,9 +3,16 @@ package a.slelin.work.math.chaos;
 public class Main {
 
     public static int N = 1000000000;
+
     public static double start = 2 / 7.0;
+
     public static int afterComma = 10;
+
     public static String format = "%." + afterComma + "f";
+
+    static String prettyDouble(double value) {
+        return String.format(format, value);
+    }
 
     static void main() {
         double x_n, y_n, z_n, w_n;
@@ -23,17 +30,17 @@ public class Main {
             y_n = 4 * y_n - 4 * y_n * y_n;
             max_xy = Math.max(max_xy, Math.abs(x_n - y_n));
         }
-        System.out.println("We do not have a chaos:");
-        System.out.println("z_n = " + String.format(format, z_n));
-        System.out.println("w_n = " + String.format(format, w_n));
-        System.out.println("|z_n - w_n| = " + String.format(format, Math.abs(z_n - w_n)));
-        System.out.println("max |z_k - w_k| = " + String.format(format, max_zw));
 
-        System.out.println();
-        System.out.println("We have a chaos:");
-        System.out.println("x_n = " + String.format(format, x_n));
-        System.out.println("y_n = " + String.format(format, y_n));
-        System.out.println("|x_n - y_n| = " + String.format(format, Math.abs(x_n - y_n)));
-        System.out.println("max |x_k - y_k| = " + String.format(format, max_xy));
+        System.out.println("We do not have a chaos:");
+        System.out.println("z_n = " + prettyDouble(z_n));
+        System.out.println("w_n = " + prettyDouble(w_n));
+        System.out.println("|z_n - w_n| = " + prettyDouble(Math.abs(z_n - w_n)));
+        System.out.println("max |z_k - w_k| = " + prettyDouble(max_zw));
+
+        System.out.println("\nWe have a chaos:");
+        System.out.println("x_n = " + prettyDouble(x_n));
+        System.out.println("y_n = " + prettyDouble(y_n));
+        System.out.println("|x_n - y_n| = " + prettyDouble(Math.abs(x_n - y_n)));
+        System.out.println("max |x_k - y_k| = " + prettyDouble(max_xy));
     }
 }

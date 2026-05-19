@@ -41,6 +41,7 @@ def check_thread(thread):
         exit(f'Thread must be in {all_threads}')
 
 
+# noinspection PyPep8Naming
 def check_N(N):
     if not isinstance(N, int):
         exit('N must be an integer')
@@ -49,6 +50,7 @@ def check_N(N):
         exit('N must be greater than 1')
 
 
+# noinspection PyPep8Naming
 def check_T(T):
     if not isinstance(T, float):
         exit('T must be an float')
