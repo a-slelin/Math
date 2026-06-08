@@ -77,9 +77,7 @@ if __name__ == '__main__':
     # noinspection PyShadowingNames
     initial_conditions = [
         lambda t: np.sqrt(eps) * 2 * rho * np.cos(omega * t),
-        lambda t: -np.sqrt(eps) * 2 * rho * np.cos(omega * t),
-        lambda t: -0.05,
-        lambda t: 0.05
+        lambda t: -np.sqrt(eps) * 2 * rho * np.cos(omega * t)
     ]
 
     # Параметры интегрирования
@@ -106,8 +104,6 @@ if __name__ == '__main__':
                     dx[i] = -omega * np.sqrt(eps) * 2 * rho * np.sin(omega * t[i])
                 elif ic_idx == 1:
                     dx[i] = omega * np.sqrt(eps) * 2 * rho * np.sin(omega * t[i])
-                else:  # Константы
-                    dx[i] = 0
 
         # Интегрирование методом Рунге-Кутты 4-го порядка
         for i in range(N_T, total_points - 1):
