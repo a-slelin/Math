@@ -29,7 +29,7 @@ if __name__ == '__main__':
     T = 5  # Первое запаздывание
     H = 1  # Второе запаздывание
     omega = 8.192419118  # Специально подобранное значение
-    eps = 0.001
+    eps = 0.000001
 
     a = ((np.cos(omega * H) / omega - np.sin(omega * H))
          / np.sin(omega * (T - H)))  # a < 0
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # noinspection PyStringConversionWithoutDunderMethod
     print(f'\trho = {rho:.10f}')
 
-    t_end = 1000.0
+    t_end = 3000.0
     phi = np.linspace(0, t_end, int(t_end / 0.01) + 1)
 
     plt.plot(
