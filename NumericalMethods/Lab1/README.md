@@ -36,11 +36,8 @@
 ## Запуск 🚀
 
 ```shell
-# Переходим в папку лабораторной работы (графики сохранятся в results);
-cd NumericalMethods/Lab1;
-
-# Запускаем программу;
-python python/src/main/main.py;
+# Запускаем программу из корня репозитория (графики сохранятся в NumericalMethods/Lab1/results);
+python NumericalMethods/Lab1/python/src/main/main.py;
 ```
 
 ## Решение
