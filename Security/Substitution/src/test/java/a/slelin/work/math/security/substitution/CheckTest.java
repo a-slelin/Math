@@ -1,0 +1,97 @@
+package a.slelin.work.math.security.substitution;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/**
+ * Проверка ручного решения (часть А) для варианта 2.
+ */
+public class CheckTest {
+
+    // ===================== Задание 1 =====================
+
+    @Test
+    void task1CaesarDecrypt() {
+        // УТИХЦДСТЖОД, сдвиг 4;
+        assertEquals("ПОДСТАНОВКА", Algorithm.caesar("УТИХЦДСТЖОД", 4, true));
+    }
+
+    // ===================== Задание 2 =====================
+
+    @Test
+    void task2CaesarEncrypt() {
+        // ИНФОРМАЦИЯ, сдвиг 7;
+        assertEquals("ПФЫХЧУЗЭПЖ", Algorithm.caesar("ИНФОРМАЦИЯ", 7, false));
+    }
+
+    // ===================== Задание 3 =====================
+
+    @Test
+    void task3aTrithemiusEncrypt() {
+        String result = Algorithm.trithemius("ВСТРЕЧА В ПОЛДЕНЬ", "ЛУНА", false);
+
+        assertEquals("НДЯРР КНВЬБ ШДРАЗ", Util.groupByFive(result));
+    }
+
+    @Test
+    void task3bTrithemiusEncrypt() {
+        String result = Algorithm.trithemius("ШИФР ЦЕЗАРЯ ЛЕГКО ВЗЛОМАТЬ", "БАХ", false);
+
+        assertEquals("ЩИЙСЦ ЬИАЕА ЛЬДКГ ГЗАПМ ХУЬ", Util.groupByFive(result));
+    }
+
+    // ===================== Задание 4 =====================
+
+    @Test
+    void task4VigenereEncrypt() {
+        String result = Algorithm.vigenere("ДОСТАВКА ТОВАРА ПРОИЗВЕДЕНА ВОВРЕМЯ", "ГОРОД", false);
+
+        // Первое слово дано в условии: ДОСТАВКА → ЗЪБАДЕШР;
+        assertEquals("ЗЪБАДЕШР", result.substring(0, 8));
+        assertEquals("ЗЪБАД ЕШРАТ ЕОАОУ УЪШХЖ ИТХЫД ЕЪТЮЙ ПН", Util.groupByFive(result));
+    }
+
+    // ===================== Задание 5 =====================
+
+    @Test
+    void task5VigenereEncrypt() {
+        String text = "НАДЕЖНЫЙ ПАРОЛЬ СОДЕРЖИТ НЕ МЕНЕЕ ДВЕНАДЦАТИ СИМВОЛОВ";
+        String result = Algorithm.vigenere(text, "ШОПЕН", false);
+
+        assertEquals("ЕОУКУ ЕЙШФН ИЪЬЯЮ ЖТФХУ ААЪКЩ ЭЫФКС ЬУЪЕС ООБНЮ АЬСУШ ЖР", Util.groupByFive(result));
+    }
+
+    // ===================== Задание 6 =====================
+
+    @Test
+    void task6aVigenereDecrypt() {
+        assertEquals("АУТЕНТИФИКАЦИЯ", Algorithm.vigenere("МЫВСХ ВФЪШЦ ИЖФЗ", "МИР", true));
+    }
+
+    @Test
+    void task6bVigenereDecrypt() {
+        assertEquals("ЗАЩИТАОТУТЕЧЕКДАННЫХ", Algorithm.vigenere("ШЕВЪГ ЕЧЖДЧ ОЛЦПН ФЮТДЙ", "СЕЙФ", true));
+    }
+
+    @Test
+    void task6cVigenereDecrypt() {
+        String cipher = "ЧНДЪЫ ЖПЦШН КЪЬЯХ АЪЩЭД ЭЦЧВЦ ВРФШЯ ШШШГЛ ДБИТЪ НИЯГР ЫУБПЦ ШЦ";
+
+        // Информация является одним из важнейших активов организации;
+        assertEquals("ИНФОРМАЦИЯЯВЛЯЕТСЯОДНИМИЗВАЖНЕЙШИХАКТИВОВОРГАНИЗАЦИИ",
+                Algorithm.vigenere(cipher, "ПАРОЛЬ", true));
+    }
+
+    // ===================== Обратная проверка =====================
+
+    @Test
+    void encryptThenDecrypt() {
+        // Расшифровка зашифрованного текста возвращает исходный текст;
+        String text = "НАДЕЖНЫЙПАРОЛЬ";
+
+        assertEquals(text, Algorithm.caesar(Algorithm.caesar(text, 7, false), 7, true));
+        assertEquals(text, Algorithm.trithemius(Algorithm.trithemius(text, "БАХ", false), "БАХ", true));
+        assertEquals(text, Algorithm.vigenere(Algorithm.vigenere(text, "ШОПЕН", false), "ШОПЕН", true));
+    }
+}
