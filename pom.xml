@@ -42,6 +42,7 @@
         <module>Chaos</module>
         <module>Diploma</module>
         <module>Multithreading</module>
+        <module>NumericalMethods</module>
         <module>Triangulation</module>
     </modules>
 
