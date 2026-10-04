@@ -36,8 +36,8 @@ u|Γ = |x|·|y|.
 ## Запуск 🚀
 
 ```shell
-# Запускаем программу из корня репозитория (графики сохранятся в NumericalMethods/Lab4/results);
-python NumericalMethods/Lab4/python/src/main/main.py;
+# Запускаем программу из корня репозитория (графики сохранятся в NumericalMethods/Dirichlet/results);
+python NumericalMethods/Dirichlet/python/src/main/main.py;
 ```
 
 Программа работает около 10–15 секунд, потому что заодно решает проверочные задачи.

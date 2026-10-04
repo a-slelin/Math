@@ -16,10 +16,10 @@
     <name>Math::NumericalMethods</name>
 
     <modules>
-        <module>Lab1</module>
-        <module>Lab2</module>
-        <module>Lab3</module>
-        <module>Lab4</module>
+        <module>IntegralEquation</module>
+        <module>BoundaryValue</module>
+        <module>HeatEquation</module>
+        <module>Dirichlet</module>
     </modules>
 
     <build>

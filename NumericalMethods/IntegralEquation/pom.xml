@@ -9,14 +9,14 @@
     </parent>
 
     <groupId>a.slelin.work.math.numerical-methods</groupId>
-    <artifactId>lab2</artifactId>
+    <artifactId>integral-equation</artifactId>
 
     <packaging>pom</packaging>
 
-    <name>Math::NumericalMethods::Lab2</name>
+    <name>Math::NumericalMethods::IntegralEquation</name>
 
     <build>
-        <finalName>Lab2</finalName>
+        <finalName>IntegralEquation</finalName>
     </build>
 
 </project>

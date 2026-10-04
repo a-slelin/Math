@@ -45,7 +45,7 @@ def get_phi(scheme, x, t_j, h, tau):
 
 
 # Краевые условия на слое t в виде y_0 = chi1*y_1 + mu1, y_n = chi2*y_(n-1) + mu2.
-# Производную на краю заменяем односторонней разностью (как в Lab2):
+# Производную на краю заменяем односторонней разностью (как в BoundaryValue):
 #     alpha1*y_0 + beta1*(y_1 - y_0)/h = gamma1,
 #     alpha2*y_n + beta2*(y_n - y_(n-1))/h = gamma2.
 def boundary_coefficients(t, h):
@@ -66,7 +66,7 @@ def boundary_coefficients(t, h):
 #
 #     g_i = -h²/(tau*sigma) * u_i^j - (1 - sigma)/sigma * (u_(i-1)^j - 2u_i^j + u_(i+1)^j) - h²/sigma * φ_i^j.
 #
-# Это ровно такая же трёхдиагональная система, как в Lab2,
+# Это ровно такая же трёхдиагональная система, как в BoundaryValue,
 # и решается она прогонкой (или любым другим методом из solvers.py).
 #
 # Возвращает узлы x, моменты времени t и таблицу u[j, i] = u(x_i, t_j).

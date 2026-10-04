@@ -9,14 +9,14 @@
     </parent>
 
     <groupId>a.slelin.work.math.numerical-methods</groupId>
-    <artifactId>lab1</artifactId>
+    <artifactId>boundary-value</artifactId>
 
     <packaging>pom</packaging>
 
-    <name>Math::NumericalMethods::Lab1</name>
+    <name>Math::NumericalMethods::BoundaryValue</name>
 
     <build>
-        <finalName>Lab1</finalName>
+        <finalName>BoundaryValue</finalName>
     </build>
 
 </project>

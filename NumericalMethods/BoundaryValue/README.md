@@ -41,8 +41,8 @@ y(0) = 0,   y'(1) = 1,   n = 20.
 ## Запуск 🚀
 
 ```shell
-# Запускаем программу из корня репозитория (графики сохранятся в NumericalMethods/Lab2/results);
-python NumericalMethods/Lab2/python/src/main/main.py;
+# Запускаем программу из корня репозитория (графики сохранятся в NumericalMethods/BoundaryValue/results);
+python NumericalMethods/BoundaryValue/python/src/main/main.py;
 ```
 
 ## Решение

@@ -48,7 +48,7 @@ def exact(x):
     return C1 * (np.exp(x) - np.exp(-3 * x)) + x * np.exp(x) / 4
 
 
-# Папка, куда сохраняем картинки: Lab2/results.
-# Считаем путь от этого файла (поднимаемся на три папки вверх: main -> src -> python -> Lab2),
+# Папка, куда сохраняем картинки: BoundaryValue/results.
+# Считаем путь от этого файла (поднимаемся на три папки вверх: main -> src -> python -> BoundaryValue),
 # поэтому программу можно запускать из любого места.
 results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'results')

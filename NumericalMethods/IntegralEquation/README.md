@@ -36,8 +36,8 @@
 ## Запуск 🚀
 
 ```shell
-# Запускаем программу из корня репозитория (графики сохранятся в NumericalMethods/Lab1/results);
-python NumericalMethods/Lab1/python/src/main/main.py;
+# Запускаем программу из корня репозитория (графики сохранятся в NumericalMethods/IntegralEquation/results);
+python NumericalMethods/IntegralEquation/python/src/main/main.py;
 ```
 
 ## Решение

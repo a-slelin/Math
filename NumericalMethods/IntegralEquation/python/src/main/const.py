@@ -44,7 +44,7 @@ eps = 1e-8
 # Защита от бесконечного цикла: больше стольких шагов не делаем
 max_iterations = 1000
 
-# Папка, куда сохраняем картинки: Lab1/results.
-# Считаем путь от этого файла (поднимаемся на три папки вверх: main -> src -> python -> Lab1),
+# Папка, куда сохраняем картинки: IntegralEquation/results.
+# Считаем путь от этого файла (поднимаемся на три папки вверх: main -> src -> python -> IntegralEquation),
 # поэтому программу можно запускать из любого места.
 results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'results')

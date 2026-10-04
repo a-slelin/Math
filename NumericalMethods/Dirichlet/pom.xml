@@ -9,14 +9,14 @@
     </parent>
 
     <groupId>a.slelin.work.math.numerical-methods</groupId>
-    <artifactId>lab4</artifactId>
+    <artifactId>dirichlet</artifactId>
 
     <packaging>pom</packaging>
 
-    <name>Math::NumericalMethods::Lab4</name>
+    <name>Math::NumericalMethods::Dirichlet</name>
 
     <build>
-        <finalName>Lab4</finalName>
+        <finalName>Dirichlet</finalName>
     </build>
 
 </project>

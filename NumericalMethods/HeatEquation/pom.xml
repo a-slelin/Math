@@ -9,14 +9,14 @@
     </parent>
 
     <groupId>a.slelin.work.math.numerical-methods</groupId>
-    <artifactId>lab3</artifactId>
+    <artifactId>heat-equation</artifactId>
 
     <packaging>pom</packaging>
 
-    <name>Math::NumericalMethods::Lab3</name>
+    <name>Math::NumericalMethods::HeatEquation</name>
 
     <build>
-        <finalName>Lab3</finalName>
+        <finalName>HeatEquation</finalName>
     </build>
 
 </project>
