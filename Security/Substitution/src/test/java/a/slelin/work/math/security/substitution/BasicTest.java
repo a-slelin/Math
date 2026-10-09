@@ -9,67 +9,62 @@ import org.junit.jupiter.api.TestMethodOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * Тестовые данные для самопроверки из пункта 4.4 методички,
- * а также проверка обязательных требований из пункта 4.1.
- */
-@DisplayName("Базовые тесты: самопроверка (п. 4.4) и требования к программе (п. 4.1)")
+@DisplayName("Базовые тесты")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BasicTest {
 
-    // ===================== Пункт 4.4 =====================
+    // Базовые тесты
 
     @Test
     @Order(1)
-    @DisplayName("Цезарь, шифрование: АЛФАВИТ со сдвигом 3 → ГОЧГЕЛХ")
+    @DisplayName("Цезарь, шифрование: АЛФАВИТ со сдвигом 3")
     void caesarEncryptAlphabet() {
         assertEquals("ГОЧГЕЛХ", Algorithm.caesar("АЛФАВИТ", 3, false));
     }
 
     @Test
     @Order(2)
-    @DisplayName("Цезарь, шифрование: ЯБЛОКО со сдвигом 1 → АВМПЛП")
+    @DisplayName("Цезарь, шифрование: ЯБЛОКО со сдвигом 1")
     void caesarEncryptApple() {
         assertEquals("АВМПЛП", Algorithm.caesar("ЯБЛОКО", 1, false));
     }
 
     @Test
     @Order(3)
-    @DisplayName("Цезарь, шифрование: ЭЮЯ со сдвигом 3 → АБВ (переход через конец алфавита)")
+    @DisplayName("Цезарь, шифрование: ЭЮЯ со сдвигом 3")
     void caesarEncryptEndOfAlphabet() {
-        // После «Я» снова идёт «А» (алфавит замкнут в кольцо);
         assertEquals("АБВ", Algorithm.caesar("ЭЮЯ", 3, false));
     }
 
     @Test
     @Order(4)
-    @DisplayName("Цезарь, расшифровка: ГОЧГЕЛХ со сдвигом 3 → АЛФАВИТ")
+    @DisplayName("Цезарь, расшифровка: ГОЧГЕЛХ со сдвигом 3")
     void caesarDecryptAlphabet() {
         assertEquals("АЛФАВИТ", Algorithm.caesar("ГОЧГЕЛХ", 3, true));
     }
 
     @Test
     @Order(5)
-    @DisplayName("Тритемиус, шифрование: ПРИВЕТ с ключом ЗАПИСЬ → ЦРЧКЦМ")
+    @DisplayName("Тритемиус, шифрование: ПРИВЕТ с ключом ЗАПИСЬ")
     void trithemiusEncryptHello() {
         assertEquals("ЦРЧКЦМ", Algorithm.trithemius("ПРИВЕТ", "ЗАПИСЬ", false));
     }
 
     @Test
     @Order(6)
-    @DisplayName("Вижинер, шифрование: ГРУЗИТЕ с ключом ВЕНТИЛЬ → ЕХАЩРЭЯ")
+    @DisplayName("Вижинер, шифрование: ГРУЗИТЕ с ключом ВЕНТИЛЬ")
     void vigenereEncryptLoad() {
         assertEquals("ЕХАЩРЭЯ", Algorithm.vigenere("ГРУЗИТЕ", "ВЕНТИЛЬ", false));
     }
 
     @Test
     @Order(7)
-    @DisplayName("Вижинер, расшифровка: ЕХАЩРЭЯ с ключом ВЕНТИЛЬ → ГРУЗИТЕ")
+    @DisplayName("Вижинер, расшифровка: ЕХАЩРЭЯ с ключом ВЕНТИЛЬ")
     void vigenereDecryptLoad() {
         assertEquals("ГРУЗИТЕ", Algorithm.vigenere("ЕХАЩРЭЯ", "ВЕНТИЛЬ", true));
     }
 
-    // ===================== Примеры из теории =====================
+    // Тесты из теории
 
     @Test
     @Order(8)
@@ -90,13 +85,12 @@ public class BasicTest {
         assertEquals(expected, Util.groupByFive(Algorithm.vigenere("ГРУЗИТЕ АПЕЛЬСИНЫ БОЧКАМИ", "ВЕНТИЛЬ", false)));
     }
 
-    // ===================== Требования пункта 4.1 =====================
+    // Тесты на проверку условий пункта 4.1
 
     @Test
     @Order(10)
     @DisplayName("Подготовка текста: регистр, замена «ё» на «е», удаление пробелов, цифр и знаков")
     void normalizeRemovesExtraSymbols() {
-        // Регистр не учитывается, «ё» → «е», пробелы, цифры и знаки препинания удаляются;
         assertEquals("ЕЛКАЕЖИК", Util.normalize("Ёлка, ёжик! 123"));
     }
 
@@ -104,7 +98,6 @@ public class BasicTest {
     @Order(11)
     @DisplayName("Цезарь: отрицательный сдвиг и сдвиг больше 32")
     void caesarNegativeAndBigShift() {
-        // Сдвиг 35 = 3 (mod 32), сдвиг -29 = 3 (mod 32);
         assertEquals("ГОЧГЕЛХ", Algorithm.caesar("АЛФАВИТ", 35, false));
         assertEquals("ГОЧГЕЛХ", Algorithm.caesar("АЛФАВИТ", -29, false));
     }
@@ -113,7 +106,6 @@ public class BasicTest {
     @Order(12)
     @DisplayName("Тритемиус по формуле и Вижинер по таблице дают одинаковый результат")
     void trithemiusEqualsVigenere() {
-        // Арифметический шифр Тритемиуса и табличный шифр Вижинера дают одинаковый результат;
         String text = "ГРУЗИТЕ АПЕЛЬСИНЫ БОЧКАМИ";
 
         assertEquals(Algorithm.trithemius(text, "ВЕНТИЛЬ", false), Algorithm.vigenere(text, "ВЕНТИЛЬ", false));

@@ -18,12 +18,12 @@ public class Main {
     public static final int WIDTH = 50;
 
     /**
-     * Файл, в который сохраняется таблица Вижинера (дополнительное задание).
+     * Файл, в который сохраняется таблица Вижинера.
      */
     public static final String TABLE_FILE = "vigenere_table.txt";
 
     /**
-     * Чтение с консоли в её родной кодировке (важно для русских букв в Windows).
+     * Чтение с консоли в её родной кодировке.
      */
     public static final Scanner in = new Scanner(System.in,
             Charset.forName(System.getProperty("stdin.encoding", Charset.defaultCharset().name())));
@@ -110,8 +110,9 @@ public class Main {
         String save = ask("Сохранить в файл " + TABLE_FILE + "? (y/n)");
         if (save.equalsIgnoreCase("y")) {
             try {
-                Files.writeString(Path.of(TABLE_FILE), table + System.lineSeparator() + matrix);
-                System.out.println("Файл сохранён: " + Path.of(TABLE_FILE).toAbsolutePath());
+                Path path = Path.of(TABLE_FILE);
+                Files.writeString(path, table + System.lineSeparator() + matrix);
+                System.out.println("Файл сохранён: " + path.toAbsolutePath());
             } catch (IOException e) {
                 printError("Не удалось сохранить файл: " + e.getMessage());
             }
@@ -166,7 +167,7 @@ public class Main {
         System.out.println(boxLine("  1. Шифр Цезаря"));
         System.out.println(boxLine("  2. Шифр Тритемиуса"));
         System.out.println(boxLine("  3. Шифр Вижинера"));
-        System.out.println(boxLine("  4. Таблица Вижинера (доп. задание)"));
+        System.out.println(boxLine("  4. Таблица Вижинера"));
         System.out.println(boxLine("  0. Выход"));
         System.out.println("╚" + "═".repeat(WIDTH) + "╝");
     }

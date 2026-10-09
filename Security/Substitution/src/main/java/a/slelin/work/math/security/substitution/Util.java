@@ -4,10 +4,10 @@ package a.slelin.work.math.security.substitution;
  * Вспомогательные функции для шифров замены:
  * работа с алфавитом, подготовка текста и ключа, построение таблицы Вижинера.
  */
-public class Util {
+public final class Util {
 
     /**
-     * Русский алфавит из 32 букв (без «Ё»). Порядок важен: в конце стоят Ь, Ы, Ъ.
+     * Русский алфавит из 32 букв (без «Ё»).
      */
     public static final String ALPHABET = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮЯ";
 
@@ -173,25 +173,6 @@ public class Util {
 
         for (int i = 0; i < length; i++) {
             result.append(key.charAt(i % key.length()));
-        }
-
-        return result.toString();
-    }
-
-    /**
-     * Матрица в виде текста: буквы через пробел, каждая строка с новой строки.
-     */
-    public static String matrixToString(char[][] matrix) {
-        StringBuilder result = new StringBuilder();
-
-        for (char[] row : matrix) {
-            for (int column = 0; column < row.length; column++) {
-                if (column > 0) {
-                    result.append(' ');
-                }
-                result.append(row[column]);
-            }
-            result.append(System.lineSeparator());
         }
 
         return result.toString();

@@ -8,34 +8,23 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Проверка ручного решения (часть А) для варианта 2.
- */
-@DisplayName("Проверка ручного решения (часть А), вариант 2")
+@DisplayName("Проверка ручного решения (часть А)")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CheckTest {
 
-    // ===================== Задание 1 =====================
-
     @Test
     @Order(1)
-    @DisplayName("Задание 1. Цезарь, расшифровка: УТИХЦДСТЖОД со сдвигом 4 → ПОДСТАНОВКА")
+    @DisplayName("Задание 1. Цезарь, расшифровка: УТИХЦДСТЖОД со сдвигом 4")
     void task1CaesarDecrypt() {
-        // УТИХЦДСТЖОД, сдвиг 4;
         assertEquals("ПОДСТАНОВКА", Algorithm.caesar("УТИХЦДСТЖОД", 4, true));
     }
 
-    // ===================== Задание 2 =====================
-
     @Test
     @Order(2)
-    @DisplayName("Задание 2. Цезарь, шифрование: ИНФОРМАЦИЯ со сдвигом 7 → ПФЫХЧУЗЭПЖ")
+    @DisplayName("Задание 2. Цезарь, шифрование: ИНФОРМАЦИЯ со сдвигом 7")
     void task2CaesarEncrypt() {
-        // ИНФОРМАЦИЯ, сдвиг 7;
         assertEquals("ПФЫХЧУЗЭПЖ", Algorithm.caesar("ИНФОРМАЦИЯ", 7, false));
     }
-
-    // ===================== Задание 3 =====================
 
     @Test
     @Order(3)
@@ -55,20 +44,15 @@ public class CheckTest {
         assertEquals("ЩИЙСЦ ЬИАЕА ЛЬДКГ ГЗАПМ ХУЬ", Util.groupByFive(result));
     }
 
-    // ===================== Задание 4 =====================
-
     @Test
     @Order(5)
     @DisplayName("Задание 4. Вижинер, шифрование: ДОСТАВКА ТОВАРА ПРОИЗВЕДЕНА ВОВРЕМЯ с ключом ГОРОД")
     void task4VigenereEncrypt() {
         String result = Algorithm.vigenere("ДОСТАВКА ТОВАРА ПРОИЗВЕДЕНА ВОВРЕМЯ", "ГОРОД", false);
 
-        // Первое слово дано в условии: ДОСТАВКА → ЗЪБАДЕШР;
         assertEquals("ЗЪБАДЕШР", result.substring(0, 8));
         assertEquals("ЗЪБАД ЕШРАТ ЕОАОУ УЪШХЖ ИТХЫД ЕЪТЮЙ ПН", Util.groupByFive(result));
     }
-
-    // ===================== Задание 5 =====================
 
     @Test
     @Order(6)
@@ -79,8 +63,6 @@ public class CheckTest {
 
         assertEquals("ЕОУКУ ЕЙШФН ИЪЬЯЮ ЖТФХУ ААЪКЩ ЭЫФКС ЬУЪЕС ООБНЮ АЬСУШ ЖР", Util.groupByFive(result));
     }
-
-    // ===================== Задание 6 =====================
 
     @Test
     @Order(7)
@@ -102,18 +84,14 @@ public class CheckTest {
     void task6cVigenereDecrypt() {
         String cipher = "ЧНДЪЫ ЖПЦШН КЪЬЯХ АЪЩЭД ЭЦЧВЦ ВРФШЯ ШШШГЛ ДБИТЪ НИЯГР ЫУБПЦ ШЦ";
 
-        // Информация является одним из важнейших активов организации;
         assertEquals("ИНФОРМАЦИЯЯВЛЯЕТСЯОДНИМИЗВАЖНЕЙШИХАКТИВОВОРГАНИЗАЦИИ",
                 Algorithm.vigenere(cipher, "ПАРОЛЬ", true));
     }
-
-    // ===================== Обратная проверка =====================
 
     @Test
     @Order(10)
     @DisplayName("Обратная проверка: расшифровка зашифрованного текста возвращает исходный")
     void encryptThenDecrypt() {
-        // Расшифровка зашифрованного текста возвращает исходный текст;
         String text = "НАДЕЖНЫЙПАРОЛЬ";
 
         assertEquals(text, Algorithm.caesar(Algorithm.caesar(text, 7, false), 7, true));
