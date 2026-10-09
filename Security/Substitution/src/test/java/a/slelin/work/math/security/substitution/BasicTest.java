@@ -1,6 +1,10 @@
 package a.slelin.work.math.security.substitution;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,42 +13,58 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Тестовые данные для самопроверки из пункта 4.4 методички,
  * а также проверка обязательных требований из пункта 4.1.
  */
+@DisplayName("Базовые тесты: самопроверка (п. 4.4) и требования к программе (п. 4.1)")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BasicTest {
 
     // ===================== Пункт 4.4 =====================
 
     @Test
+    @Order(1)
+    @DisplayName("Цезарь, шифрование: АЛФАВИТ со сдвигом 3 → ГОЧГЕЛХ")
     void caesarEncryptAlphabet() {
         assertEquals("ГОЧГЕЛХ", Algorithm.caesar("АЛФАВИТ", 3, false));
     }
 
     @Test
+    @Order(2)
+    @DisplayName("Цезарь, шифрование: ЯБЛОКО со сдвигом 1 → АВМПЛП")
     void caesarEncryptApple() {
         assertEquals("АВМПЛП", Algorithm.caesar("ЯБЛОКО", 1, false));
     }
 
     @Test
+    @Order(3)
+    @DisplayName("Цезарь, шифрование: ЭЮЯ со сдвигом 3 → АБВ (переход через конец алфавита)")
     void caesarEncryptEndOfAlphabet() {
         // После «Я» снова идёт «А» (алфавит замкнут в кольцо);
         assertEquals("АБВ", Algorithm.caesar("ЭЮЯ", 3, false));
     }
 
     @Test
+    @Order(4)
+    @DisplayName("Цезарь, расшифровка: ГОЧГЕЛХ со сдвигом 3 → АЛФАВИТ")
     void caesarDecryptAlphabet() {
         assertEquals("АЛФАВИТ", Algorithm.caesar("ГОЧГЕЛХ", 3, true));
     }
 
     @Test
+    @Order(5)
+    @DisplayName("Тритемиус, шифрование: ПРИВЕТ с ключом ЗАПИСЬ → ЦРЧКЦМ")
     void trithemiusEncryptHello() {
         assertEquals("ЦРЧКЦМ", Algorithm.trithemius("ПРИВЕТ", "ЗАПИСЬ", false));
     }
 
     @Test
+    @Order(6)
+    @DisplayName("Вижинер, шифрование: ГРУЗИТЕ с ключом ВЕНТИЛЬ → ЕХАЩРЭЯ")
     void vigenereEncryptLoad() {
         assertEquals("ЕХАЩРЭЯ", Algorithm.vigenere("ГРУЗИТЕ", "ВЕНТИЛЬ", false));
     }
 
     @Test
+    @Order(7)
+    @DisplayName("Вижинер, расшифровка: ЕХАЩРЭЯ с ключом ВЕНТИЛЬ → ГРУЗИТЕ")
     void vigenereDecryptLoad() {
         assertEquals("ГРУЗИТЕ", Algorithm.vigenere("ЕХАЩРЭЯ", "ВЕНТИЛЬ", true));
     }
@@ -52,6 +72,8 @@ public class BasicTest {
     // ===================== Примеры из теории =====================
 
     @Test
+    @Order(8)
+    @DisplayName("Тритемиус: полный пример из теории (ключ ЗАПИСЬ)")
     void trithemiusExampleFromTheory() {
         String text = "В связи с создавшимся положением отодвигаем сроки возвращения домой Рамзай";
         String expected = "ЙССЗШ ВШСЭП ХЬЙШЧ ФВЩЦО ЬЦЧЯФ ИФФЯМ ХДСРФ ЬММАШ ЯДПВЭ ПУКЗЩ ФХЩЩЛ ОЫЦЬК ЗМЦИЬ";
@@ -60,6 +82,8 @@ public class BasicTest {
     }
 
     @Test
+    @Order(9)
+    @DisplayName("Вижинер: полный пример из теории (ГРУЗИТЕ АПЕЛЬСИНЫ БОЧКАМИ, ключ ВЕНТИЛЬ)")
     void vigenereExampleFromTheory() {
         String expected = "ЕХАЩР ЭЯВФТ ЭВЪВП АОАЯХ ЬОН";
 
@@ -69,12 +93,16 @@ public class BasicTest {
     // ===================== Требования пункта 4.1 =====================
 
     @Test
+    @Order(10)
+    @DisplayName("Подготовка текста: регистр, замена «ё» на «е», удаление пробелов, цифр и знаков")
     void normalizeRemovesExtraSymbols() {
         // Регистр не учитывается, «ё» → «е», пробелы, цифры и знаки препинания удаляются;
         assertEquals("ЕЛКАЕЖИК", Util.normalize("Ёлка, ёжик! 123"));
     }
 
     @Test
+    @Order(11)
+    @DisplayName("Цезарь: отрицательный сдвиг и сдвиг больше 32")
     void caesarNegativeAndBigShift() {
         // Сдвиг 35 = 3 (mod 32), сдвиг -29 = 3 (mod 32);
         assertEquals("ГОЧГЕЛХ", Algorithm.caesar("АЛФАВИТ", 35, false));
@@ -82,6 +110,8 @@ public class BasicTest {
     }
 
     @Test
+    @Order(12)
+    @DisplayName("Тритемиус по формуле и Вижинер по таблице дают одинаковый результат")
     void trithemiusEqualsVigenere() {
         // Арифметический шифр Тритемиуса и табличный шифр Вижинера дают одинаковый результат;
         String text = "ГРУЗИТЕ АПЕЛЬСИНЫ БОЧКАМИ";
@@ -90,24 +120,32 @@ public class BasicTest {
     }
 
     @Test
+    @Order(13)
+    @DisplayName("Ошибка: пустой ключ")
     void emptyKeyIsError() {
         assertThrows(IllegalArgumentException.class, () -> Algorithm.trithemius("ПРИВЕТ", "", false));
         assertThrows(IllegalArgumentException.class, () -> Algorithm.vigenere("ПРИВЕТ", "   ", false));
     }
 
     @Test
+    @Order(14)
+    @DisplayName("Ошибка: ключ с посторонними символами")
     void keyWithExtraSymbolsIsError() {
         assertThrows(IllegalArgumentException.class, () -> Algorithm.trithemius("ПРИВЕТ", "КЛЮЧ1", false));
         assertThrows(IllegalArgumentException.class, () -> Algorithm.vigenere("ПРИВЕТ", "KEY", false));
     }
 
     @Test
+    @Order(15)
+    @DisplayName("Ошибка: нечисловой или пустой сдвиг")
     void notNumberShiftIsError() {
         assertThrows(IllegalArgumentException.class, () -> Util.parseShift("три"));
         assertThrows(IllegalArgumentException.class, () -> Util.parseShift(""));
     }
 
     @Test
+    @Order(16)
+    @DisplayName("Таблица Вижинера имеет размер 32×32 и построена циклическим сдвигом")
     void vigenereTableSize() {
         char[][] table = Util.vigenereTable();
 
