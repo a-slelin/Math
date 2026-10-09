@@ -57,7 +57,7 @@ public class Algorithm {
 
     /**
      * Шифр Вижинера через таблицу (а не по формуле).
-     * Строится рабочая матрица: первая строка — алфавит, далее строки букв ключа.
+     * Строится рабочая матрица из строк букв ключа; первая строка таблицы — это алфавит.
      * Шифрование: столбец ищется по букве текста в первой строке,
      * шифробуква стоит на пересечении этого столбца и строки буквы ключа.
      * Расшифровка: в строке буквы ключа ищется шифробуква,
@@ -71,14 +71,14 @@ public class Algorithm {
         String clean = Util.normalizeText(text);
         String upperKey = Util.normalizeKey(key);
         char[][] matrix = Util.workingMatrix(upperKey);
-        char[] firstRow = matrix[0];
+        char[] firstRow = Util.ALPHABET.toCharArray();
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < clean.length(); i++) {
             char letter = clean.charAt(i);
 
             // Строка рабочей матрицы, соответствующая текущей букве ключа;
-            char[] keyRow = matrix[1 + i % upperKey.length()];
+            char[] keyRow = matrix[i % upperKey.length()];
 
             if (decrypt) {
                 int column = findColumn(keyRow, letter);

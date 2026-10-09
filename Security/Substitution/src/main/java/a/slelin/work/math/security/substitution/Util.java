@@ -129,21 +129,18 @@ public final class Util {
     }
 
     /**
-     * Рабочая матрица шифрования (правило 1): первая строка таблицы (алфавит)
-     * и строки, начинающиеся с букв ключа, в порядке следования букв в ключе.
-     * Строка с номером i + 1 соответствует i-й букве ключа.
+     * Рабочая матрица шифрования (правило 1): строки таблицы, начинающиеся с букв ключа,
+     * в порядке следования букв в ключе. Строка с номером i соответствует i-й букве ключа.
+     * Первая строка таблицы (алфавит) отдельно не хранится — это просто Util.ALPHABET.
      */
     public static char[][] workingMatrix(String key) {
         String upperKey = normalizeKey(key);
         char[][] table = vigenereTable();
-        char[][] matrix = new char[upperKey.length() + 1][];
+        char[][] matrix = new char[upperKey.length()][];
 
-        // Первая строка — обычный алфавит;
-        matrix[0] = table[0];
-
-        // Остальные строки выбираются по первой букве (она совпадает с номером строки);
+        // Строки выбираются по первой букве (она совпадает с номером строки);
         for (int i = 0; i < upperKey.length(); i++) {
-            matrix[i + 1] = table[indexOf(upperKey.charAt(i))];
+            matrix[i] = table[indexOf(upperKey.charAt(i))];
         }
 
         return matrix;

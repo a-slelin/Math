@@ -99,8 +99,8 @@ public class Main {
     static void runTable() {
         String key = Util.normalizeKey(ask("Ключ"));
 
-        String table = tableToString("Таблица Вижинера 32×32", Util.vigenereTable(), null);
-        String matrix = tableToString("Рабочая матрица для ключа " + key, Util.workingMatrix(key), key);
+        String table = tableToString("Таблица Вижинера 32×32", Util.vigenereTable());
+        String matrix = tableToString("Рабочая матрица для ключа " + key, Util.workingMatrix(key));
 
         System.out.println();
         System.out.print(table);
@@ -185,14 +185,19 @@ public class Main {
     }
 
     /**
-     * Результат: группами по 5 знаков и сплошной строкой.
+     * Результат в рамке: группами по 5 знаков и сплошной строкой.
+     * Если текст длинный, рамка расширяется под него.
      */
     static void printResult(String result) {
+        String grouped = " Результат: " + Util.groupByFive(result);
+        String solid = " Сплошной:  " + result;
+        int width = Math.max(WIDTH, Math.max(grouped.length(), solid.length()) + 1);
+
         System.out.println();
-        System.out.println("┌" + "─".repeat(WIDTH) + "┐");
-        System.out.println("│ Результат: " + Util.groupByFive(result));
-        System.out.println("│ Сплошной:  " + result);
-        System.out.println("└" + "─".repeat(WIDTH) + "┘");
+        System.out.println("┌" + "─".repeat(width) + "┐");
+        System.out.println("│" + padRight(grouped, width) + "│");
+        System.out.println("│" + padRight(solid, width) + "│");
+        System.out.println("└" + "─".repeat(width) + "┘");
     }
 
     /**
@@ -207,7 +212,14 @@ public class Main {
      * Строка внутри рамки, дополненная пробелами до нужной ширины.
      */
     static String boxLine(String text) {
-        return "║" + text + " ".repeat(Math.max(0, WIDTH - text.length())) + "║";
+        return "║" + padRight(text, WIDTH) + "║";
+    }
+
+    /**
+     * Текст, дополненный справа пробелами до нужной ширины.
+     */
+    static String padRight(String text, int width) {
+        return text + " ".repeat(Math.max(0, width - text.length()));
     }
 
     /**
@@ -219,10 +231,10 @@ public class Main {
     }
 
     /**
-     * Таблица с заголовками: сверху — буквы открытого текста (алфавит),
-     * слева — первая буква строки (для рабочей матрицы — буква ключа, первая строка помечена «*»).
+     * Таблица с заголовками: сверху — буквы открытого текста (алфавит, первая строка таблицы),
+     * слева — первая буква строки (для рабочей матрицы это буква ключа).
      */
-    static String tableToString(String title, char[][] matrix, String key) {
+    static String tableToString(String title, char[][] matrix) {
         String line = System.lineSeparator();
         StringBuilder result = new StringBuilder();
 
@@ -237,16 +249,9 @@ public class Main {
         result.append("────┼").append("──".repeat(Util.N)).append(line);
 
         // Строки таблицы;
-        for (int row = 0; row < matrix.length; row++) {
-            String label;
-            if (key == null) {
-                label = String.valueOf(matrix[row][0]);
-            } else {
-                label = row == 0 ? "*" : String.valueOf(key.charAt(row - 1));
-            }
-
-            result.append("  ").append(label).append(" │");
-            for (char letter : matrix[row]) {
+        for (char[] row : matrix) {
+            result.append("  ").append(row[0]).append(" │");
+            for (char letter : row) {
                 result.append(' ').append(letter);
             }
             result.append(line);
