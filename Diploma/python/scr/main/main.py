@@ -61,9 +61,9 @@ if __name__ == '__main__':
             ax.plot(A, B, color='blue')
 
     legend_elements = [
-        Patch(facecolor='lightgreen', edgecolor='black', label='$D_0$'),
+        Patch(facecolor='lightgreen', edgecolor='black', label=r'$\mathbb{D}_0$'),
         plt.Rectangle((0, 0), 1, 1, facecolor='none', edgecolor='red',
-                      hatch='///', label='Устойчивая область')
+                      hatch='///', label=r'$\mathbb{K}$')
     ]
 
     legend = ax.legend(handles=legend_elements, loc='upper left', fontsize=20)
