@@ -41,6 +41,7 @@
         <module>Absorption</module>
         <module>Chaos</module>
         <module>Diploma</module>
+        <module>DPartition</module>
         <module>Multithreading</module>
         <module>Security</module>
         <module>Triangulation</module>
