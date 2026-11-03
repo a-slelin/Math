@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 /**
  * Вспомогательные функции для матричного шифрования:
  * алфавит, перевод букв в числа и обратно, разбор ввода и красивый вывод матриц.
- * Аннотация {@code @UtilityClass} (Lombok) делает класс финальным, все его члены — статическими,
- * а конструктор — приватным.
  */
 @UtilityClass
 public class Util {
@@ -41,8 +39,7 @@ public class Util {
     }
 
     /**
-     * Буква по номеру. В отличие от шифров замены, номер НЕ приводится по модулю:
-     * если число вне диапазона 0…32, значит, ключ или шифротекст неверны.
+     * Буква по номеру.
      */
     public char letterAt(long index) {
         if (index < 0 || index >= N) {
@@ -112,6 +109,7 @@ public class Util {
     /**
      * Перевод номеров букв обратно в текст (8 0 1 0 2 0 → ЗАБАВА).
      */
+    @SuppressWarnings("unused")
     public String toText(long[] numbers) {
         StringBuilder result = new StringBuilder();
 
@@ -248,7 +246,7 @@ public class Util {
         for (String[] row : cells) {
             StringBuilder line = new StringBuilder("│");
             for (String cell : row) {
-                line.append(' ').append(" ".repeat(width - cell.length())).append(cell);
+                line.append(' ').repeat(" ", width - cell.length()).append(cell);
             }
             lines.add(line.append(" │").toString());
         }

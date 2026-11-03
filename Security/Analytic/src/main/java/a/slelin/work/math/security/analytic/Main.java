@@ -339,7 +339,7 @@ public class Main {
     /**
      * Текст по центру строки шириной WIDTH.
      */
-    static String center(String text) {
+    static String center(@SuppressWarnings("SameParameterValue") String text) {
         int left = Math.max(0, (WIDTH - text.length()) / 2);
         return " ".repeat(left) + text;
     }
