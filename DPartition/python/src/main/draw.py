@@ -60,9 +60,13 @@ def setup_axes(ax, a1_lim, a2_lim):
 
 
 def label_regions(ax, roots, a1, a2, min_share=0.004):
-    """Подписываем число неустойчивых корней N в каждой достаточно крупной области."""
+    """
+    Подписываем число неустойчивых корней N в каждой достаточно крупной области.
+    Область устойчивости (N = 0) подписываем, даже если она маленькая.
+    """
     for value, mask in connected_regions(roots):
-        if mask.sum() < min_share * roots.size:
+        min_size = 4 if value == 0 else min_share * roots.size
+        if mask.sum() < min_size:
             continue
         i, j = deepest_point(mask)
         ax.text(a1[j], a2[i], f'{value}', ha='center', va='center', fontsize=12, fontweight='bold',

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from colorama import init, Fore, Style
 
-from const import EPS, A, EPS_LIST, A1_LIM, A2_LIM, GRID_SIZE, RESULTS_DIR
+from const import EPS, A, EPS_MIN, EPS_LIST, A1_LIM, A2_LIM, GRID_SIZE, RESULTS_DIR
 from draw import plot_partition, plot_eps_evolution
 from equation import d_curve, guaranteed_radius
 from partition import (d_curve_branches, singular_lines, count_unstable_roots, stable_mask_limit,
@@ -30,11 +30,12 @@ def read_args():
         eps = float(sys.argv[1]) if len(sys.argv) > 1 else EPS
         a = float(sys.argv[2]) if len(sys.argv) > 2 else A
     except ValueError:
-        error('Использование: python main.py [ε] [A], где ε ∈ (0, 1]')
+        error(f'Использование: python main.py [ε] [A], где ε ∈ [{EPS_MIN:g}, 1]')
         sys.exit(1)
 
-    if not 0 < eps <= 1:
-        error('Параметр ε должен лежать в (0, 1] (случай ε = 0 строится на сравнительном графике)')
+    if not (EPS_MIN <= eps <= 1 and np.isfinite(a)):
+        error(f'Параметр ε должен лежать в [{EPS_MIN:g}, 1], A — конечное число '
+              '(случай ε = 0 строится на сравнительном графике)')
         sys.exit(1)
     return eps, a
 
@@ -47,6 +48,9 @@ def stability_mask(eps, a, a1_mesh, a2_mesh):
 
 
 def main():
+    # Чтобы греческие буквы и индексы печатались и в консоли Windows, и при перенаправлении вывода в файл
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
     init()
     eps, a = read_args()
     start = time.perf_counter()
@@ -94,6 +98,8 @@ def main():
     if stable.any():
         print_col(f'  Устойчивость: a₁ ∈ [{a1_mesh[stable].min():.3f}, {a1_mesh[stable].max():.3f}], '
                   f'a₂ ∈ [{a2_mesh[stable].min():.3f}, {a2_mesh[stable].max():.3f}]', Fore.GREEN)
+    else:
+        print_col('  В окне нет ни одной устойчивой точки (N ≥ 1 везде)', Fore.RED)
     if a > 0:
         print_col(f'  Точка (0, 0): N = {roots[GRID_SIZE // 2, GRID_SIZE // 2]} '
                   f'(ε²λ² + εAλ + 1 устойчив при A > 0)', Fore.GREEN)

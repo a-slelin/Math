@@ -109,7 +109,7 @@ def singular_lines(eps, A, a1_lim, a2_lim, tol=1e-9):
     return lines
 
 
-def count_unstable_roots(eps, A, a1, a2, chunk=2000):
+def count_unstable_roots(eps, A, a1, a2, max_elements=2_000_000):
     """
     Число корней P(λ) в правой полуплоскости Re λ > 0 (ε > 0) для каждой
     пары (a₁, a₂) — по принципу аргумента.
@@ -136,6 +136,8 @@ def count_unstable_roots(eps, A, a1, a2, chunk=2000):
     base = eps ** 2 * lam ** 2 + eps * A * lam + 1
     e1, e2 = np.exp(-TAU_1 * lam), np.exp(-TAU_2 * lam)
 
+    # Обрабатываем точки порциями, чтобы матрица chunk × len(ω) не превышала max_elements
+    chunk = max(1, max_elements // omega.size)
     roots = np.empty(a1.size, dtype=int)
     for s in range(0, a1.size, chunk):
         p = base + a1[s:s + chunk, None] * e1 + a2[s:s + chunk, None] * e2
