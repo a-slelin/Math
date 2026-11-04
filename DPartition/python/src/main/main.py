@@ -94,9 +94,15 @@ def main():
     if stable.any():
         print_col(f'  Устойчивость: a₁ ∈ [{a1_mesh[stable].min():.3f}, {a1_mesh[stable].max():.3f}], '
                   f'a₂ ∈ [{a2_mesh[stable].min():.3f}, {a2_mesh[stable].max():.3f}]', Fore.GREEN)
+    if a > 0:
         print_col(f'  Точка (0, 0): N = {roots[GRID_SIZE // 2, GRID_SIZE // 2]} '
                   f'(ε²λ² + εAλ + 1 устойчив при A > 0)', Fore.GREEN)
-    print_col(f'  Ромб |a₁| + |a₂| < m(A) = {guaranteed_radius(a):.4f} устойчив при любом ε > 0', Fore.GREEN)
+        print_col(f'  Ромб |a₁| + |a₂| < m(A) = {guaranteed_radius(a):.4f} устойчив при любом ε > 0', Fore.GREEN)
+    else:
+        print_col('  При A ≤ 0 точка (0, 0) неустойчива (A < 0) или лежит на границе (A = 0, корни ±i/ε)',
+                  Fore.LIGHTCYAN_EX)
+    for c1, c2, c in lines:
+        print_col(f'  Особая прямая: {c1:g}·a₁ + {c2:g}·a₂ = {c:.4f}', Fore.LIGHTCYAN_EX)
     delimiter()
 
     print_col('Строим области устойчивости для ε из ' + str(EPS_LIST), Fore.BLUE)

@@ -89,9 +89,12 @@ def plot_partition(eps, A, a1, a2, roots, branches, lines, a1_lim, a2_lim, path)
         Patch(fc=UNSTABLE_COLORS[2], label='Неустойчивость (N > 0)'),
         Line2D([], [], color=CURVE_COLOR, lw=1.6, label=r'$\lambda = \pm i\omega$ (D-кривая)'),
         Line2D([], [], color=ZERO_LINE_COLOR, lw=1.8, label=r'$\lambda = 0$: $1 + a_1 + a_2 = 0$'),
-        Line2D([], [], color=RHOMB_COLOR, lw=1.2, ls=(0, (4, 3)),
-               label=rf'$|a_1| + |a_2| < m(A) = {guaranteed_radius(A):.3f}$ (любое ε)'),
     ]
+    if guaranteed_radius(A) > 0:
+        legend.append(Line2D([], [], color=RHOMB_COLOR, lw=1.2, ls=(0, (4, 3)),
+                             label=rf'$|a_1| + |a_2| < m(A) = {guaranteed_radius(A):.3f}$ (любое ε)'))
+    if lines:
+        legend.append(Line2D([], [], color=SINGULAR_COLOR, lw=1.4, ls='--', label='Особые прямые (sin 4ω = 0)'))
     ax.legend(handles=legend, loc='upper right', fontsize=9.5, framealpha=0.95)
     ax.set_title(f'D-разбиение: {TITLE}\n' + rf'$\varepsilon = {eps:g},\ A = {A:g}$'
                  + '   (числа — количество корней с Re λ > 0)', fontsize=12)
