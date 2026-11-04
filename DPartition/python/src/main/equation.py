@@ -1,3 +1,11 @@
+"""
+Формулы для характеристического уравнения (вариант 17)
+
+    P(λ) = ε²λ² + εAλ + 1 + a₁·e^(-τ₁λ) + a₂·e^(-τ₂λ),   τ₁ = 2, τ₂ = 6.
+
+Все функции принимают как числа, так и массивы numpy (считают поэлементно).
+"""
+
 import numpy as np
 
 from const import TAU_1, TAU_2
@@ -36,7 +44,7 @@ def d_curve(omega, eps, A):
     """
     R = eps ** 2 * omega ** 2 - 1
     I = eps * A * omega
-    det = np.sin((TAU_2 - TAU_1) * omega)
+    det = np.sin((TAU_2 - TAU_1) * omega)  # sin(6ω - 2ω) = sin4ω
 
     a1 = (R * np.sin(TAU_2 * omega) - I * np.cos(TAU_2 * omega)) / det
     a2 = (I * np.cos(TAU_1 * omega) - R * np.sin(TAU_1 * omega)) / det
@@ -73,6 +81,7 @@ def guaranteed_radius(A):
     При ε → 0 частоты ω = x/ε пробегают все фазы, и оценка становится точной
     в вершинах ромба (область устойчивости «сжимается» к нему).
     """
-    if A <= 0:
+    if A <= 0:  # при A ≤ 0 трёхчлен сам не устойчив, гарантированного ромба нет
         return 0.0
+    # Минимум f(u) = (1 - u)² + A²u по u = x² ≥ 0 достигается в u = 1 - A²/2 (если оно ≥ 0), иначе в u = 0
     return A * np.sqrt(1 - A ** 2 / 4) if A ** 2 < 2 else 1.0
