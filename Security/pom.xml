@@ -17,6 +17,7 @@
 
     <modules>
         <module>Substitution</module>
+        <module>Analytic</module>
     </modules>
 
     <build>
