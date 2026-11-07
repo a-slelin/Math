@@ -1,84 +1,73 @@
-import matplotlib
+"""
+Рисунок D-разбиения для характеристического уравнения (4):
+
+    λ + 1 = a·λ·e^(-λT) + b·λ·e^(-λH).
+
+На рисунке: ветви D-кривой (9) и область 𝔻₀ (все корни в левой полуплоскости), залитая зелёным.
+Область 𝔻₀ находится автоматически: в каждой точке сетки (a, b) считаем число корней N с Re λ > 0
+(см. roots.count_unstable_roots) и закрашиваем точки, где N = 0.
+
+Запуск: python main.py. Картинка сохраняется в Diploma/images/D-partition.png.
+Счёт занимает около минуты: почти всё время уходит на точки вблизи границы 𝔻₀.
+"""
+
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import Patch, Polygon
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
 
-eps = 10 ** -3
+from draw import STABLE_COLOR, STABLE_EDGE, CURVE_COLOR, roots_on_grid, curve_branches, setup_axes
+from roots import d_curve
 
+# Параметры уравнения
+T = 5  # Запаздывание
+H = 1  # Второе запаздывание
 
-# Построение основной кривой
-# noinspection PyPep8Naming,PyShadowingNames
-def get_general_line(h, T, H, W):
-    # noinspection PyShadowingNames
-    def a(w):
-        return (np.cos(w * H) / w - np.sin(w * H)) / np.sin(w * (T - H))
+# Окно на плоскости (a, b)
+A_LIM = (-1.5, 1.5)
+B_LIM = (-1.5, 1.5)
 
-    # noinspection PyShadowingNames
-    def b(w):
-        return (np.sin(w * T) - np.cos(w * T) / w) / np.sin(w * (T - H))
+# Число узлов сетки по каждой оси для подсчёта корней (время счёта растёт как GRID_SIZE²)
+GRID_SIZE = 301
 
-    segments, current_segment = [], []
+# D-кривая: ω ∈ (0, W_MAX] с шагом W_STEP (как и раньше — 10⁶ точек)
+W_MAX = 100
+W_STEP = 10 ** -4
 
-    for i in range(1, W + 1):
-        w = i * h
-
-        if abs(np.sin(w * (T - H))) <= eps:
-            segments.append(current_segment)
-            current_segment = []
-            continue
-
-        current_segment.append((a(w), b(w)))
-
-    return segments
+# Папка для картинок: этот файл лежит в Diploma/python/scr/main — поднимаемся на 3 уровня вверх
+IMAGES_DIR = Path(__file__).resolve().parents[3] / 'images'
 
 
 if __name__ == '__main__':
-    matplotlib.use('TkAgg')
+    fig, ax = plt.subplots(figsize=(9, 9))
 
-    # Настройка отображения matplotlib
-    a_limit, b_limit = -1.5, 1.5
+    # 1) Число корней с Re λ > 0 в каждой точке сетки и заливка области 𝔻₀ = {N = 0}.
+    #    contourf по маске (уровень 0.5) даёт гладкую границу заливки вместо «ступенек» из пикселей.
+    #    Контур отдельно не обводим: границу 𝔻₀ и так рисуют ветви D-кривой поверх заливки.
+    a, b, roots = roots_on_grid(T, H, A_LIM, B_LIM, GRID_SIZE)
+    stable = (roots == 0).astype(float)
+    ax.contourf(a, b, stable, levels=[0.5, 1.5], colors=[STABLE_COLOR], zorder=2)
 
-    fig, ax = plt.subplots(figsize=(5, 5))
-    ax.grid()
-    ax.set_xlabel('a', fontsize=26)
-    ax.set_ylabel('b', fontsize=26, rotation=0)
-    ax.set_ylim(-a_limit, a_limit)
-    ax.set_xlim(-b_limit, b_limit)
-    ax.tick_params(axis='both', which='major', labelsize=18)
+    # 2) Ветви D-кривой (9). Чем больше ω, тем тоньше и прозрачнее линия:
+    #    ветви с большими ω сгущаются, и иначе слились бы в сплошное синее пятно.
+    for w, a_w, b_w in curve_branches(d_curve, T, H, W_MAX, W_STEP):
+        fade = 1 / (1 + w[0] / 15)  # от 1 (первые ветви) до ≈ 0.13 (ω ≈ 100)
+        ax.plot(a_w, b_w, color=CURVE_COLOR, lw=0.4 + 1.1 * fade, alpha=0.35 + 0.65 * fade, zorder=4)
 
-    # Параметры
-    T = 5  # Запаздывание
-    H = 1  # Второе запаздывание
-    W = 10 ** 6  # Количество точек
-    h = 10 ** -4  # Шаг
+    setup_axes(ax, A_LIM, B_LIM)
 
-    # Отрисовка основной кривой
-    segments = get_general_line(h, T, H, W)
-    for seg in segments:
-        if len(seg) > 1:
-            A = [p[0] for p in seg]
-            B = [p[1] for p in seg]
-            ax.plot(A, B, color='blue')
-
-    legend_elements = [
-        Patch(facecolor='lightgreen', edgecolor='black', label=r'$\mathbb{D}_0$'),
-        plt.Rectangle((0, 0), 1, 1, facecolor='none', edgecolor='red',
-                      hatch='///', label=r'$\mathbb{K}$')
+    # 3) Легенда (заливка и линии сами в неё не попадают — собираем вручную)
+    legend = [
+        Patch(facecolor=STABLE_COLOR, edgecolor=STABLE_EDGE, label=r'$\mathbb{D}_0$'),
+        Line2D([], [], color=CURVE_COLOR, lw=1.5, label='D-кривая (9)'),
     ]
+    ax.legend(handles=legend, loc='upper left', fontsize=16, framealpha=0.95)
 
-    legend = ax.legend(handles=legend_elements, loc='upper left', fontsize=20)
-    ax.add_artist(legend)
-
-    # Вершины ромба
-    verts = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-
-    # Сплошная зелёная заливка
-    romb_fill = Polygon(verts, closed=True, facecolor='lightgreen', edgecolor='none', alpha=0.7)
-    ax.add_patch(romb_fill)
-
-    # Поверх – красная штриховка и красная граница
-    romb_hatch = Polygon(verts, closed=True, edgecolor='red', facecolor='none',
-                         hatch='///', linewidth=2)
-    ax.add_patch(romb_hatch)
-
+    fig.tight_layout()
+    IMAGES_DIR.mkdir(exist_ok=True)
+    fig.savefig(IMAGES_DIR / 'D-partition.png', dpi=200)
+    print(f'Сохранено: {IMAGES_DIR / "D-partition.png"}')
+    print(f'Точек сетки в 𝔻₀: {int(stable.sum())} из {stable.size}')
     plt.show()
